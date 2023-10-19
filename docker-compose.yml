@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  php-apache-environment: 
+    container_name: php-apache
+    image: dockette/web:php-82    
+    ports:
+      - "8080:80"
+    volumes:
+      - '.:/srv'
+    environment:
+      - NETTE_DEBUG=1
+  mariadb:
+    image: docker.io/mariadb:latest
+    environment:
+      # ALLOW_EMPTY_PASSWORD is recommended only for development.      
+      - MYSQL_USER=nette
+      - MYSQL_ROOT_PASSWORD=nette
+      - MYSQL_DATABASE=nette
+      - MYSQL_PASSWORD=nette
+    ports:
+    - 3306:3306
+  phpmyadmin:
+    image: docker.io/phpmyadmin:latest
+    restart: always
+    ports:
+      - 8081:80
+    environment:
+      - PMA_ARBITRARY=1  
